@@ -32,10 +32,14 @@ Stream<String?> get linkStream => UniLinksPlatform.instance.linkStream;
 late final uriLinkStream = linkStream.transform<Uri?>(
   StreamTransformer<String?, Uri?>.fromHandlers(
     handleData: (String? link, EventSink<Uri?> sink) {
-      if (link == null) {
-        sink.add(null);
-      } else {
-        sink.add(Uri.parse(link));
+      try {
+        if (link == null) {
+          sink.add(null);
+        } else {
+          sink.add(Uri.parse(link));
+        }
+      } catch (e) {
+        print('uriLinkStream ${e.toString()}');
       }
     },
   ),
